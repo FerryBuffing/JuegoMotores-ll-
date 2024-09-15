@@ -6,10 +6,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("CnetroDeMasa")]
-    [SerializeField] private Vector3 centerOfMass = Vector3.zero;
-    //[Header("WheelsModels")]
-    //[SerializeField] private Transform M_frontRightWheel;
-    //[SerializeField] private Transform M_frontLeftWheel;
+    [SerializeField] private Vector3 centerOfMass;
+    
     [Header("WheelsModels")]
     [SerializeField] private WheelCollider C_frontRightWheel;
     [SerializeField] private WheelCollider C_frontLeftWheel;
@@ -19,32 +17,39 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed = 100;
     [SerializeField] private int MaxStearAngle = 30;
 
+    private bool hasWheelContact = false;
     private float torque;
     
     private Rigidbody rb;
 
-    // Start is called before the first frame update
+    public void HasContact()
+    {
+        hasWheelContact = true;
+    }
+
+
     void Start()
     {
        rb = GetComponent<Rigidbody>(); 
-       //rb.centerOfMass = centerOfMass;
+      // rb.centerOfMass = centerOfMass;
     }
+
 
     private void FixedUpdate()
     {
         torque = Input.GetAxis("Vertical") *  speed;
-        rb.AddForce(0, 0, torque);
+        if (hasWheelContact)
+        {
+            C_frontLeftWheel.motorTorque = torque;
+            C_frontRightWheel.motorTorque = torque;
+        }
+        
 
         float rotation = Input.GetAxis("Horizontal") * MaxStearAngle;
-        //Rotacion de los modelos de las ruedas
-        //M_frontRightWheel.eulerAngles = new Vector3(0, rotation, 90);
-        //M_frontLeftWheel.eulerAngles = new Vector3(0, rotation, 90);
-        //Rotacion de los WheelsColliders
+        
         C_frontRightWheel.steerAngle = rotation;
         C_frontLeftWheel.steerAngle = rotation;
 
-
-
+       hasWheelContact = false;
     }
-
 }
