@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class CoasterEngine : MonoBehaviour {
+public class NaveEngine : MonoBehaviour {
 	private Rigidbody rb;
 	private AudioSource audioSource;
 	[Header("_______AnguloNave_______")]
