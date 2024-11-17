@@ -49,6 +49,7 @@ public class SimpleEvent : MonoBehaviour
     {
     
        chequeo = false;
+       Debug.Log(chequeo);
     
     }
     
